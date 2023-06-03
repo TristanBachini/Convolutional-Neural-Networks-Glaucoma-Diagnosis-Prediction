@@ -26,3 +26,65 @@ cnn3.compile(loss='binary_crossentropy',
              optimizer='adam',
              metrics=['accuracy'])
 
+from keras.preprocessing.image import ImageDataGenerator
+
+image_generatorFullAugment = ImageDataGenerator(
+    rotation_range=30,
+    width_shift_range=0.15,
+    shear_range=0.3,
+    zoom_range=0.30,
+    samplewise_center=True,
+    horizontal_flip=True,
+    samplewise_std_normalization=True
+)
+
+image_generatorNoAugment = ImageDataGenerator(
+    samplewise_std_normalization=True
+)
+
+
+train = image_generatorFullAugment.flow_from_directory('datasets/train/',
+                                                       batch_size=32,
+                                                       shuffle=True,
+                                                       class_mode='binary',
+                                                       target_size=(256,256))
+
+validation = image_generatorFullAugment.flow_from_directory('datasets/validation/',
+                                                       batch_size=1,
+                                                       shuffle=True,
+                                                       class_mode='binary',
+                                                       target_size=(256,256))
+
+test = image_generatorNoAugment.flow_from_directory('datasets/test/',
+                                                       batch_size=1,
+                                                       shuffle=False,
+                                                       class_mode='binary',
+                                                       target_size=(256,256))
+
+r100 = cnn3.fit(train,
+                epochs = 20,
+                validation_data=validation,
+#                class_weight=class_weight,
+                batch_size=64,
+                verbose=1)
+
+
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(12,8))
+plt.subplot(2,2,1)
+plt.plot(r100.history['loss'],label = 'Loss')
+plt.plot(r100.history['val_loss'],label='Val_Loss')
+plt.legend()
+plt.title('Loss Evolution')
+
+
+plt.subplot(2,2,2)
+plt.plot(r100.history['accuracy'],label='Accuracy')
+plt.plot(r100.history['val_accuracy'],label='Val_Accuracy')
+plt.legend()
+plt.title('Accuracy Evolution')
+
+plt.show()
+
+

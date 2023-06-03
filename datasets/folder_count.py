@@ -11,10 +11,10 @@ def count_files_in_folder(folder_path):
 
 # Example usage
 #folder_path = 'normal eye'
-#folder_path = 'Glaucomatous eye images'
-#folder_path = 'validation'
-#folder_path = 'test'
-folder_path = 'train'
+folder_path = 'Glaucomatous eye images'
+#folder_path = 'validation/negative'
+#folder_path = 'test/positive'
+#folder_path = 'train'
 
 num_files = count_files_in_folder(folder_path)
 print(f"The number of files in {folder_path} is: {num_files}")

@@ -15,8 +15,8 @@ def transfer_files(source_folder, destination_folder, num_files):
         print(f"Transferred {file_name} to {destination_folder}")
 
 # Example usage
-source_folder = 'Normal eye/'
-destination_folder = 'validation/'
+source_folder = 'normal eye/'
+destination_folder = 'train/negative/'
 num_files_to_transfer = 37
 
 transfer_files(source_folder, destination_folder, num_files_to_transfer)
